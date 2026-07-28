@@ -1,65 +1,107 @@
-import Image from "next/image";
+import type {Metadata} from "next";
+import Hero from "@/components/homepage/Hero";
+import Thesis from "@/components/homepage/Thesis";
+import HowItWorks from "@/components/homepage/HowItWorks";
+import TranslationCycle from "@/components/homepage/TranslationCycle";
+import RoundTables from "@/components/homepage/RoundTables";
+import Outputs from "@/components/homepage/Outputs";
+import Routes from "@/components/homepage/Routes";
+import CTA from "@/components/homepage/CTA";
+import Testimonials from "@/components/homepage/Testimonials";
+import Stats from "@/components/homepage/Stats";
 
-export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+export const metadata: Metadata = {
+    title: "The AMR Interface | AMR Research into Parliamentary Action",
+    description:
+        "The AMR Interface is an independent, researcher-led channel between antimicrobial resistance research and the UK Parliament — convening evidence, translating it into policy and reporting on implementation.",
+    alternates: {canonical: "/"},
+};
+
+/* Page-level structured data: the roundtable Event + FAQ rich results */
+const pageSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebPage",
+            "@id": "https://amrinterface.org/#webpage",
+            url: "https://amrinterface.org/",
+            name: "The AMR Interface | AMR Research into Parliamentary Action",
+            isPartOf: {"@id": "https://amrinterface.org/#website"},
+            about: {"@id": "https://amrinterface.org/#organization"},
+        },
+        {
+            "@type": "Event",
+            name: "Translating AMR Research into Parliamentary Action",
+            startDate: "2026-05-18",
+            endDate: "2026-05-18",
+            eventStatus: "https://schema.org/EventScheduled",
+            eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+            location: {
+                "@type": "Place",
+                name: "House of Commons",
+                address: {
+                    "@type": "PostalAddress",
+                    addressLocality: "London",
+                    addressCountry: "GB",
+                },
+            },
+            organizer: {"@id": "https://amrinterface.org/#organization"},
+            description:
+                "A multi-stakeholder parliamentary roundtable convening AMR researchers, parliamentarians, regulators, professional bodies and patient advocates. Five recommendations, four outputs.",
+        },
+        {
+            "@type": "FAQPage",
+            mainEntity: [
+                {
+                    "@type": "Question",
+                    name: "What is the AMR Interface?",
+                    acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "The AMR Interface is an independent, researcher-led standing channel that connects antimicrobial resistance research with the UK Parliament, policymakers, healthcare professionals and patients. It convenes evidence, translates it into recommendations for the UK National Action Plan on AMR, and reports annually on implementation.",
+                    },
+                },
+                {
+                    "@type": "Question",
+                    name: "How often does the AMR Interface convene Parliament?",
+                    acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "Twice a year. Each parliamentary roundtable runs on a shared agenda and produces a citable policy brief, a peer-reviewed methodology contribution and a public record of recommendations with named owners and measurable indicators.",
+                    },
+                },
+                {
+                    "@type": "Question",
+                    name: "Who can take part in the AMR Interface?",
+                    acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "Four routes are open: parliamentary and policy staff can request or commission a briefing; researchers can submit evidence or propose a roundtable topic; patient advocates can share lived experience or join the public involvement panel; and members of the public and press can register to receive policy briefs and quarterly updates.",
+                    },
+                },
+            ],
+        },
+    ],
+};
+
+
+export default function HomePage() {
+    return (
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{__html: JSON.stringify(pageSchema)}}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+            {/*<a className="skip" href="#main">Skip to main content</a>*/}
+            <main id="main">
+                <Hero/>
+                <Stats/>
+                <Thesis/>
+                <HowItWorks/>
+                <TranslationCycle/>
+                <RoundTables/>
+                <Outputs/>
+                <Testimonials/>
+                <Routes/>
+                <CTA/>
+            </main>
+        </>
+    );
 }
