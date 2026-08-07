@@ -5,16 +5,21 @@ import WhatToExpect from "@/components/engagepage/WhatToExpect";
 import CTA from "@/components/CTA";
 import Hero from "@/components/Hero";
 
+import {HeroSectionData} from "@/types/components/hero";
+import { parseJson } from "@/lib/json";
+import {CTASection} from "@/types/components/cta";
+import {ComponentService} from "@/services/component.service";
+
 export const metadata: Metadata = {
   title: "Engage — Four Routes In",
   description:
-    "Request a parliamentary briefing on antimicrobial resistance, propose a roundtable topic, share lived experience of AMR, or register to receive every policy brief the AMR Interface publishes.",
+      "Request a parliamentary briefing on antimicrobial resistance, propose a roundtable topic, share lived experience of AMR, or register to receive every policy brief the AMR Interface publishes.",
   alternates: { canonical: "/engage" },
   openGraph: {
     url: "/engage",
     title: "Engage — Four Routes In | The AMR Interface",
     description:
-      "Brief us or be briefed, submit evidence, share your voice, or register for every policy brief. One form covers all four routes.",
+        "Brief us or be briefed, submit evidence, share your voice, or register for every policy brief. One form covers all four routes.",
   },
 };
 
@@ -34,7 +39,7 @@ const pageSchema = {
       url: "https://amrinterface.org/engage",
       name: "Engage | The AMR Interface",
       description:
-        "Four routes into the AMR Interface — request a parliamentary briefing, submit evidence, share lived experience, or register to receive every policy brief.",
+          "Four routes into the AMR Interface — request a parliamentary briefing, submit evidence, share lived experience, or register to receive every policy brief.",
       isPartOf: { "@id": "https://amrinterface.org/#website" },
       about: { "@id": "https://amrinterface.org/#organization" },
       inLanguage: "en-GB",
@@ -81,22 +86,37 @@ const pageSchema = {
 
 
 
-export default function EngagePage() {
-  return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(pageSchema) }}
-      />
-      {/*<a className="skip" href="#main">Skip to main content</a>*/}
-      <main id="main">
-        <Hero name={"HeroEngage"} />
-        <FourRoutes />
-        <Register />
-        <WhatToExpect />
-        <CTA name={"CTAEngage"}/>
+export default async function EngagePage() {
 
-      </main>
-    </>
+  const components = await ComponentService.getAll();
+
+
+  const engageComponents = components.filter((c) =>
+      c.name.includes("Engage")
+  );
+
+  if (!components) return ;
+
+  //
+  const lookup = Object.fromEntries(
+      engageComponents.map((c) => [c.name, c])
+  );
+
+  return (
+      <>
+        <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(pageSchema) }}
+        />
+        {/*<a className="skip" href="#main">Skip to main content</a>*/}
+        <main id="main">
+          <Hero data={parseJson<HeroSectionData>(lookup["HeroEngage"].data)}/>
+          <FourRoutes />
+          <Register />
+          <WhatToExpect />
+          <CTA  data={parseJson<CTASection>(lookup["CTAEngage"].data)}/>
+
+        </main>
+      </>
   );
 }

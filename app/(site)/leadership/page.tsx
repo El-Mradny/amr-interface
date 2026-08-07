@@ -5,18 +5,22 @@ import Portability from "@/components/leadershippage/Portability";
 import FundingAndDeclarations from "@/components/leadershippage/FundingAndDeclarations";
 import CTA from "@/components/CTA";
 import Hero from "@/components/Hero";
+import {ComponentService} from "@/services/component.service";
+import {parseJson} from "@/lib/json";
+import {HeroSectionData} from "@/types/components/hero";
+import {CTASection} from "@/types/components/cta";
 
 export const metadata: Metadata = {
   title: "Leadership & Governance",
   description:
-    "Who runs the AMR Interface — founder and Principal Investigator Dr Rasha Abdelsalam Elshenawy, the governance rules, the funding model, declared interests and how the programme stays portable.",
+      "Who runs the AMR Interface — founder and Principal Investigator Dr Rasha Abdelsalam Elshenawy, the governance rules, the funding model, declared interests and how the programme stays portable.",
   alternates: { canonical: "/leadership" },
   openGraph: {
     type: "profile",
     url: "/leadership",
     title: "Leadership & Governance | The AMR Interface",
     description:
-      "Researcher-led, independent and portable: who convenes the AMR Interface, how decisions are made, and where the funding comes from.",
+        "Researcher-led, independent and portable: who convenes the AMR Interface, how decisions are made, and where the funding comes from.",
   },
 };
 
@@ -36,7 +40,7 @@ const pageSchema = {
       url: "https://amrinterface.org/leadership",
       name: "Leadership & Governance | The AMR Interface",
       description:
-        "Who runs the AMR Interface: the founder and Principal Investigator, the governance rules, the funding model and the portability of the programme.",
+          "Who runs the AMR Interface: the founder and Principal Investigator, the governance rules, the funding model and the portability of the programme.",
       isPartOf: { "@id": "https://amrinterface.org/#website" },
       about: { "@id": "https://amrinterface.org/#organization" },
       mainEntity: { "@id": "https://amrinterface.org/#rasha" },
@@ -99,22 +103,32 @@ const pageSchema = {
   ],
 };
 
-export default function LeadershipPage() {
+export default async function LeadershipPage() {
+  const components = await ComponentService.getAll();
+  const leaderComponents = components.filter((c) =>
+      c.name.includes("Leadership")
+  );
+
+  if (!components) return ;
+
+  const lookup = Object.fromEntries(
+      leaderComponents.map((c) => [c.name, c])
+  );
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(pageSchema) }}
-      />
-      {/*<a className="skip" href="#main">Skip to main content</a>*/}
-      <main id="main">
-        <Hero name={"HeroLeadership"}/>
-        <Leadership/>
-        <Governance/>
-        <Portability />
-        <FundingAndDeclarations/>
-        <CTA name={"CTALeadership"}/>
-      </main>
-    </>
+      <>
+        <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(pageSchema) }}
+        />
+        {/*<a className="skip" href="#main">Skip to main content</a>*/}
+        <main id="main">
+          <Hero data={parseJson<HeroSectionData>(lookup["HeroLeadership"].data)}/>
+          <Leadership/>
+          <Governance/>
+          <Portability />
+          <FundingAndDeclarations/>
+          <CTA data={parseJson<CTASection>(lookup["CTALeadership"].data)}/>
+        </main>
+      </>
   );
 }

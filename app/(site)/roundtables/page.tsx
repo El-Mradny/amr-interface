@@ -5,6 +5,10 @@ import MonthDetail from "@/components/roundtablespage/MonthDetail";
 import CycleProduce from "@/components/roundtablespage/CycleProduce";
 import CTA from "@/components/CTA";
 import Hero from "@/components/Hero";
+import {parseJson} from "@/lib/json";
+import {HeroSectionData} from "@/types/components/hero";
+import {CTASection} from "@/types/components/cta";
+import {ComponentService} from "@/services/component.service";
 
 export const metadata: Metadata = {
     title: "AMR Parliamentary Roundtables",
@@ -101,7 +105,17 @@ const pageSchema = {
 };
 
 
-export default function RoundtablesPage() {
+export default async function RoundtablesPage() {
+    const components = await ComponentService.getAll();
+    const roundComponents = components.filter((c) =>
+        c.name.includes("RoundTables")
+    );
+
+    if (!components) return ;
+
+    const lookup = Object.fromEntries(
+        roundComponents.map((c) => [c.name, c])
+    );
     return (
         <>
             <script
@@ -110,12 +124,12 @@ export default function RoundtablesPage() {
             />
             {/*<a className="skip" href="#main">Skip to main content</a>*/}
             <main id="main">
-                <Hero name={"HeroRoundTables"}/>
+                <Hero data={parseJson<HeroSectionData>(lookup["HeroRoundTables"].data)}/>
                 <RunOfSession/>
                 <Calendar/>
                 <MonthDetail/>
                 <CycleProduce/>
-              <CTA name={"CTARoundTables"}/>
+                <CTA data={parseJson<CTASection>(lookup["CTARoundTables"].data)}/>
             </main>
         </>
     );

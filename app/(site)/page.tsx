@@ -11,6 +11,10 @@ import Testimonials from "@/components/homepage/Testimonials";
 import Stats from "@/components/homepage/Stats";
 import CTA from "@/components/CTA";
 import HeroHomePage from "@/components/homepage/HeroHomePage";
+import {ComponentService} from "@/services/component.service";
+import {CTASection} from "@/types/components/cta";
+import {parseJson} from "@/lib/json";
+import {HowItWorksSection, OutputsSection, TestimonialSection} from "@/types/components/homeComponents";
 
 export const metadata: Metadata = {
     title: "The AMR Interface | AMR Research into Parliamentary Action",
@@ -84,7 +88,17 @@ const pageSchema = {
 };
 
 
-export default function HomePage() {
+export default async function HomePage() {
+    const components = await ComponentService.getAll();
+    const homeComponents = components.filter((c) =>
+        c.name.includes("Home")
+    );
+    if (!components) return ;
+
+    const lookup = Object.fromEntries(
+        homeComponents.map((c) => [c.name, c])
+    );
+
     return (
         <>
             <script
@@ -96,13 +110,13 @@ export default function HomePage() {
                 <HeroHomePage/>
                 <Stats/>
                 <Thesis/>
-                <HowItWorks name={"HowItWorks"}/>
+                <HowItWorks data={parseJson<HowItWorksSection>(lookup["HowItWorksHome"].data)}/>
                 <TranslationCycle/>
                 <RoundTables/>
-                <Outputs name={"Outputs"}/>
-                <Testimonials name={"Testimonial"}/>
+                <Outputs data={parseJson<OutputsSection>(lookup["OutputsHome"].data)}/>
+                <Testimonials data={parseJson<TestimonialSection>(lookup["TestimonialHome"].data)}/>
                 <Routes/>
-                <CTA name={"CTAHome"} />
+                <CTA data={parseJson<CTASection>(lookup["CTAHome"].data)} />
             </main>
         </>
     );

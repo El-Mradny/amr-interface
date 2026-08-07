@@ -1,91 +1,64 @@
 import Link from "next/link";
-import {prisma} from "@/lib/prisma";
-import LogoutButton from "@/components/admin/LogoutButton";
+import { ComponentService } from "@/services/component.service";
+
+const sections = [
+    {
+        title: "Home Page",
+        key: "Home",
+    },
+    {
+        title: "RoundTables Page",
+        key: "RoundTables",
+    },
+    {
+        title: "Outputs Page",
+        key: "Outputs",
+    },
+    {
+        title: "Leadership Page",
+        key: "Leadership",
+    },
+    {
+        title: "Engage Page",
+        key: "Engage",
+    },
+];
 
 export default async function Page() {
-
-    const components = await prisma.component.findMany();
+    const components = await ComponentService.getAll();
 
     return (
-        <div className="justify-items-center">
-            <h1 className="p-5">Home Page</h1>
-            <div className="space-y-4">
-                {components.map((item) => (
-                    item.name.includes('Home') && (
+        <div className="max-w-6xl mx-auto px-6 py-8">
+            {sections.map((section) => {
+                const pageComponents = components.filter((component) =>
+                    component.name.includes(section.key)
+                );
 
-                        <Link
-                            key={item.id}
-                            href={`/admin/components/${item.name}`}
-                            className="btn btn-line m-3"
-                        >
-                            {item.name}
-                        </Link>
-                    )
-                ))}
-            </div>
-            <br/>
-            <h1 className="p-5">RoundTables Page</h1>
-            <div className="space-y-4">
-                {components.map((item) => (
-                    item.name.includes('RoundTables') && (
-                        <Link
-                            key={item.id}
-                            href={`/admin/components/${item.name}`}
-                            className="btn btn-line m-3"
-                        >
-                            {item.name}
-                        </Link>
-                    )))}
-            </div>
-            <br/>
-            <h1 className="p-5">Outputs Page</h1>
-            <div className="space-y-4">
-                {components.map((item) => (
-                    item.name.includes('Outputs') && (
-                        <Link
-                            key={item.id}
-                            href={`/admin/components/${item.name}`}
-                            className="btn btn-line m-3"
-                        >
-                            {item.name}
-                        </Link>
-                    )))}
-            </div>
-            <br/>
-            <h1 className="p-5">LeaderShip Page</h1>
-            <div className="space-y-4">
-                {components.map((item) => (
-                    item.name.includes('Leadership') && (
-                        <Link
-                            key={item.id}
-                            href={`/admin/components/${item.name}`}
-                            className="btn btn-line m-3"
-                        >
-                            {item.name}
-                        </Link>
-                    )))}
-            </div>
+                return (
+                    <section
+                        key={section.key}
+                        className="mb-10"
+                    >
+                        <h1 className="p-5 text-2xl font-semibold">
+                            {section.title}
+                        </h1>
 
-            <br/>
-            <h1 className="p-5">Engage Page</h1>
-            <div className="space-y-4">
-                {components.map((item) => (
-                    item.name.includes('Engage') && (
-                        <Link
-                            key={item.id}
-                            href={`/admin/components/${item.name}`}
-                            className="btn btn-line m-3"
-                        >
-                            {item.name}
-                        </Link>
-                    )))}
-            </div>
-            <br/>
-
-
-            <br/>
-            <br/>
-            <LogoutButton/>
+                        <div className="flex flex-wrap gap-3">
+                            {pageComponents.map((component) => (
+                                <Link
+                                    key={component.id}
+                                    href={`/admin/components/${encodeURIComponent(
+    component.name
+)}`}
+                                    className="btn btn-line"
+                                >
+                                    {component.name}
+                                </Link>
+                            ))}
+                        </div>
+                    </section>
+                );
+            })}
         </div>
     );
 }

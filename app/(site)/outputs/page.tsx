@@ -4,6 +4,10 @@ import HowToCite from "@/components/outputspage/HowToCite";
 import HowToPublish from "@/components/outputspage/HowToPublish";
 import CTA from "@/components/CTA";
 import Hero from "@/components/Hero";
+import {ComponentService} from "@/services/component.service";
+import {parseJson} from "@/lib/json";
+import {CTASection} from "@/types/components/cta";
+import {HeroSectionData} from "@/types/components/hero";
 
 export const metadata: Metadata = {
     title: "Policy Briefs, Papers & Reports",
@@ -139,7 +143,16 @@ const pageSchema = {
 };
 
 
-export default function OutputsPage() {
+export default async function OutputsPage() {
+    const components = await ComponentService.getAll();
+    const outputComponents = components.filter((c) =>
+        c.name.includes("Outputs")
+    );
+    if (!components) return ;
+
+    const lookup = Object.fromEntries(
+        outputComponents.map((c) => [c.name, c])
+    );
     return (
         <>
             <script
@@ -148,11 +161,11 @@ export default function OutputsPage() {
             />
             {/*<a className="skip" href="#main">Skip to main content</a>*/}
             <main id="main">
-                <Hero name={"HeroOutputs"}/>
+                <Hero data={parseJson<HeroSectionData>(lookup["HeroOutputs"].data)}/>
                 <Archive/>
                 <HowToCite/>
                 <HowToPublish/>
-                <CTA name={"CTAOutputs"}/>
+                <CTA data={parseJson<CTASection>(lookup["CTAOutputs"].data)}/>
             </main>
         </>
     );

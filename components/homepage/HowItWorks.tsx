@@ -1,26 +1,24 @@
-import prisma from "@/lib/prisma";
+
 import {HowItWorksSection} from "@/types/components/homeComponents";
 
-export default async function HowItWorks({name,}: { name: string }) {
-    const component = await prisma.component.findUnique({
-        where: {
-            name: name,
-        },
-    });
+interface HowItworkProps {
+    data: HowItWorksSection
+}
 
-    if (!component) return <div></div>;
-    const componentData = component.data as unknown as HowItWorksSection
+
+export default async function HowItWorks({data,}: HowItworkProps) {
+    console.log("How It works",data)
     return (
         <section className="how" aria-labelledby="how-title">
             <div className="wrap">
                 <div className="sec-head">
-                    <p className="eyebrow">{componentData.sec_head_p}</p>
-                    <h2 id="how-title">{componentData.sec_head_h2}</h2>
-                    <p>{componentData.sec_head_span}</p>
+                    <p className="eyebrow">{data.sec_head_p}</p>
+                    <h2 id="how-title">{data.sec_head_h2}</h2>
+                    <p>{data.sec_head_span}</p>
                 </div>
                 <div className="cards-3">
                     {
-                        componentData.cards.map((card) => {
+                        data.cards.map((card) => {
                             return (
                                 <article key={card.n} className="card">
                                     <p className="num">{card.n}</p>
