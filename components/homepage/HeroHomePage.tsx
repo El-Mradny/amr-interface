@@ -1,7 +1,23 @@
 import Link from "next/link";
 import Image from "next/image";
+import prisma from "@/lib/prisma";
+import {HeroSectionData} from "@/types/components/hero";
 
-export default function Hero() {
+
+export default async function HeroHomePage() {
+    const component = await prisma.component.findFirst({
+        where: {
+            name: "HeroHome"
+        }
+    });
+
+    if (!component || typeof component.data !== "object" || component.data === null) {
+        throw new Error("Invalid Hero Section data");
+    }
+    const hero = component.data as unknown as HeroSectionData;
+
+
+
 
     return (
         // ---------------- HERO ----------------
@@ -9,38 +25,36 @@ export default function Hero() {
             <div className="wrap">
                 <div className="hero-grid">
                     <div>
-                        <p className="eyebrow">The AMR Interface</p>
+                        <p className="eyebrow">{hero.title_p}</p>
                         <h1 id="hero-title">
-                            Turning AMR evidence into
-                            <span className="gold">parliamentary action</span>
+                            {hero.title_h1}
+                            <span className="gold">{hero.title_span}</span>
                         </h1>
-                        <p className="hero-lede">
-                            An <strong>independent, researcher-led standing channel</strong>{" "}
-                            between antimicrobial resistance research, the UK Parliament,
-                            and the systems where policy becomes practice.
-                        </p>
+                        {
+                            hero.hero_lede &&
+                            <p className="hero-lede" dangerouslySetInnerHTML={{__html: hero.hero_lede}}></p>
+                        }
                         <div className="hero-ctas">
-                            <Link className="btn btn-gold" href="/outputs/five-recommendations">
-                                Read the May 2026 policy brief <span aria-hidden="true">→</span>
+                            <Link className="btn btn-gold" href={hero.solid_button_href ? hero.solid_button_href : ""}>
+                                {hero.solid_button_text} <span aria-hidden="true">→</span>
                             </Link>
-                            <a className="btn btn-line" href="#cycle">See how it works</a>
+                            <a className="btn btn-line" href={hero.soft_button_href}>{hero.soft_button_text}</a>
                         </div>
                         <p className="hero-meta">
-                            Founded &amp; led by Dr Rasha Abdelsalam Elshenawy · University
-                            of Hertfordshire · ESRC IAA
+                            {hero.hero_meta}
                         </p>
                     </div>
 
                     <figure className="hero-figure">
                         <Image
-                            src="/images/amr-interface-cover.jpg"
-                            width={1280}
-                            height={720}
+                            src={hero.hero_image_src ? hero.hero_image_src : ""}
+                            width={hero.hero_image_width}
+                            height={hero.hero_image_height}
                             priority
-                            alt="Translating AMR Research into Parliamentary Action — a gold ribbon links research, policy and practice across the Palace of Westminster"
+                            alt={hero.hero_image_alt ? hero.hero_image_alt : ""}
                         />
                         <figcaption>
-                            AMR Parliamentary Roundtable · House of Commons · 18 May 2026
+                            {hero.figure_caption}
                         </figcaption>
                     </figure>
                 </div>
@@ -73,9 +87,9 @@ export default function Hero() {
                         </g>
                     </svg>
                     <div className="ribbon-labels">
-                        <div><h3>Research</h3><p>Generating evidence and innovation</p></div>
-                        <div><h3>Policy</h3><p>Informing Parliament and policy decisions</p></div>
-                        <div><h3>Practice</h3><p>Improving outcomes in health and society</p></div>
+                        <div><h3>{hero.ribbon_label_1_h3}</h3><p>{hero.ribbon_label_1_p}</p></div>
+                        <div><h3>{hero.ribbon_label_2_h3}</h3><p>{hero.ribbon_label_2_p}</p></div>
+                        <div><h3>{hero.ribbon_label_3_h3}</h3><p>{hero.ribbon_label_3_p}</p></div>
                     </div>
                 </div>
             </div>

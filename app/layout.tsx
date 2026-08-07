@@ -1,8 +1,7 @@
 import type {Metadata, Viewport} from "next";
 import {Fraunces, IBM_Plex_Sans, IBM_Plex_Mono} from "next/font/google";
 import "./globals.css";
-import SiteHeader from "@/components/SiteHeader";
-import SiteFooter from "@/components/SiteFooter";
+
 
 /* ------------------------------------------------------------------
    FONTS — self-hosted by next/font (no render-blocking Google request)
@@ -163,11 +162,11 @@ export default function RootLayout({
             type="application/ld+json"
             dangerouslySetInnerHTML={{__html: JSON.stringify(siteSchema)}}
         />
-        <SiteHeader/>
+
 
         {children}
 
-        <SiteFooter/>
+
         </body>
         </html>
     );

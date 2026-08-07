@@ -1,47 +1,27 @@
 import Link from "next/link";
+import prisma from "@/lib/prisma";
+import {OutputsSection} from "@/types/components/homeComponents";
 
-const OUTPUTS = [
-    {
-        href: "/outputs/five-recommendations",
-        kind: "Policy brief",
-        title: "Five Recommendations",
-        meta: "June 2026 · 1,650 words",
-        go: "Read the brief →"
-    },
-    {
-        href: "/outputs/translation-cycle",
-        kind: "Peer-reviewed",
-        title: "The Translation Cycle",
-        meta: "JAC-AMR · under review",
-        go: "Read preprint →"
-    },
-    {
-        href: "/outputs/esrc-iaa-final-report",
-        kind: "Funder report",
-        title: "ESRC IAA Final Report",
-        meta: "March 2027",
-        go: "Download →"
-    },
-    {
-        href: "/outputs/research-to-action-roadmap",
-        kind: "Public roadmap",
-        title: "Research → Action",
-        meta: "BSAC & UKHSA · 2026",
-        go: "View roadmap →"
-    },
-];
 
-const Outputs =()=>{
+const Outputs = async ({name,}: { name: string })=>{
+    const component = await prisma.component.findUnique({
+        where: {
+            name: name,
+        },
+    });
+
+    if (!component) return <div></div>;
+    const componentData = component.data as unknown as OutputsSection
     return(
         <section className="outputs" aria-labelledby="outputs-title">
             <div className="wrap">
                 <div className="sec-head">
-                    <p className="eyebrow on-ivory">The cumulative archive</p>
-                    <h2 id="outputs-title">Policy briefs, reports &amp; publications</h2>
-                    <p>Everything the Interface produces is public, dated and citable.</p>
+                    <p className="eyebrow on-ivory">{componentData.sec_head_p}</p>
+                    <h2 id="outputs-title">{componentData.sec_head_h2}</h2>
+                    <p>{componentData.sec_head_span}</p>
                 </div>
                 <div className="out-grid">
-                    {OUTPUTS.map((o) => (
+                    {componentData.outputCards.map((o) => (
                         <Link className="out" href={o.href} key={o.href}>
                             <p className="kind">{o.kind}</p>
                             <h3>{o.title}</h3>

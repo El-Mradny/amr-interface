@@ -1,10 +1,10 @@
 import type {Metadata} from "next";
-import HeroRoundTables from "@/components/roundtablespage/HeroRoundTables";
 import RunOfSession from "@/components/roundtablespage/RunOfSession";
 import Calendar from "@/components/roundtablespage/Calendar";
 import MonthDetail from "@/components/roundtablespage/MonthDetail";
 import CycleProduce from "@/components/roundtablespage/CycleProduce";
-import CTARoundTables from "@/components/roundtablespage/CTARoundTables";
+import CTA from "@/components/CTA";
+import Hero from "@/components/Hero";
 
 export const metadata: Metadata = {
     title: "AMR Parliamentary Roundtables",
@@ -110,12 +110,12 @@ export default function RoundtablesPage() {
             />
             {/*<a className="skip" href="#main">Skip to main content</a>*/}
             <main id="main">
-                <HeroRoundTables/>
+                <Hero name={"HeroRoundTables"}/>
                 <RunOfSession/>
                 <Calendar/>
                 <MonthDetail/>
                 <CycleProduce/>
-              <CTARoundTables/>
+              <CTA name={"CTARoundTables"}/>
             </main>
         </>
     );

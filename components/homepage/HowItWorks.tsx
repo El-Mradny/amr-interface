@@ -1,40 +1,37 @@
-export default function HowItWorks(){
+import prisma from "@/lib/prisma";
+import {HowItWorksSection} from "@/types/components/homeComponents";
+
+export default async function HowItWorks({name,}: { name: string }) {
+    const component = await prisma.component.findUnique({
+        where: {
+            name: name,
+        },
+    });
+
+    if (!component) return <div></div>;
+    const componentData = component.data as unknown as HowItWorksSection
     return (
         <section className="how" aria-labelledby="how-title">
             <div className="wrap">
                 <div className="sec-head">
-                    <p className="eyebrow">How the AMR Interface works</p>
-                    <h2 id="how-title">Convene · Translate · Account</h2>
-                    <p>Three functions, repeated on a fixed rhythm. Each one produces a public record.</p>
+                    <p className="eyebrow">{componentData.sec_head_p}</p>
+                    <h2 id="how-title">{componentData.sec_head_h2}</h2>
+                    <p>{componentData.sec_head_span}</p>
                 </div>
                 <div className="cards-3">
-                    <article className="card">
-                        <p className="num">01</p>
-                        <h3>Convene</h3>
-                        <p>
-                            Bring researchers, parliamentarians, regulators, professional
-                            bodies and patient advocates into the same room — twice a
-                            year, on a shared agenda.
-                        </p>
-                    </article>
-                    <article className="card">
-                        <p className="num">02</p>
-                        <h3>Translate</h3>
-                        <p>
-                            Convert convergent evidence into concrete recommendations for
-                            the UK National Action Plan, each with a named owner and a
-                            measurable indicator.
-                        </p>
-                    </article>
-                    <article className="card">
-                        <p className="num">03</p>
-                        <h3>Account</h3>
-                        <p>
-                            Report annually to Parliament on uptake and implementation —
-                            closing the loop the Public Accounts Committee identified as
-                            missing.
-                        </p>
-                    </article>
+                    {
+                        componentData.cards.map((card) => {
+                            return (
+                                <article key={card.n} className="card">
+                                    <p className="num">{card.n}</p>
+                                    <h3>{card.h3}</h3>
+                                    <p>
+                                        {card.p}
+                                    </p>
+                                </article>
+                            )
+                        })
+                    }
                 </div>
             </div>
         </section>

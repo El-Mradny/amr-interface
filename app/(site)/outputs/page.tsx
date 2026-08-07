@@ -1,9 +1,9 @@
 import type {Metadata} from "next";
-import HeroOutputs from "@/components/outputspage/HeroOutputs";
 import Archive from "@/components/outputspage/Archive";
 import HowToCite from "@/components/outputspage/HowToCite";
 import HowToPublish from "@/components/outputspage/HowToPublish";
-import CTAOutputs from "@/components/outputspage/CTAOutputs";
+import CTA from "@/components/CTA";
+import Hero from "@/components/Hero";
 
 export const metadata: Metadata = {
     title: "Policy Briefs, Papers & Reports",
@@ -148,11 +148,11 @@ export default function OutputsPage() {
             />
             {/*<a className="skip" href="#main">Skip to main content</a>*/}
             <main id="main">
-                <HeroOutputs/>
+                <Hero name={"HeroOutputs"}/>
                 <Archive/>
                 <HowToCite/>
                 <HowToPublish/>
-                <CTAOutputs/>
+                <CTA name={"CTAOutputs"}/>
             </main>
         </>
     );

@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /* ============================================================
    THE AMR INTERFACE — design tokens
    Palette derived from the roundtable cover artwork:
@@ -723,4 +725,33 @@ footer{background:var(--burg-950);border-top:1px solid var(--line);padding:72px 
   .jump-grid{grid-template-columns:1fr;}
   .form-grid{grid-template-columns:1fr;}
   .form-card{padding:30px 24px;}
+}
+
+/*#################################################################################*/
+/*#                     ADMIN Page                                                #*/
+/*##################################################################################*/
+
+.admin-layout{
+  display: grid;
+  justify-content: center;   /* horizontal center */
+  align-items: center;       /* vertical center */
+  min-height: 100vh;         /* full viewport height */
+  margin: 0;
+}
+
+/* ---------- the form (ivory band) ---------- */
+.admin-form-band{background:var(--ivory);color:var(--ink);}
+.admin-form-band h2,.form-band h3{color:var(--ink);}
+.admin-form-band .sec-head p{color:var(--ink-2);}
+.admin-form-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:start;}
+.admin-form-card{background:#fff;border:1px solid #E3D2BE;border-top:4px solid var(--burg-800);padding:40px 38px;}
+.admin-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.admin-field{display:flex;flex-direction:column;gap:9px;min-width:0;}
+.admin-field.full{grid-column:1 / -1;}
+.admin-field label{font-family:var(--body);font-size:16.5px;font-weight:600;color:var(--ink);}
+.admin-field .hint{font-size:15px;color:var(--ink-2);font-weight:400;}
+.admin-field input,.field select,.field textarea{
+  font-family:var(--body);font-size:17.5px;color:var(--ink);
+  background:#FDFAF6;border:1.5px solid #DCC9B4;border-radius:2px;
+  padding:15px 16px;width:100%;
 }

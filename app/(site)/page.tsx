@@ -1,14 +1,16 @@
 import type {Metadata} from "next";
-import Hero from "@/components/homepage/Hero";
+
 import Thesis from "@/components/homepage/Thesis";
 import HowItWorks from "@/components/homepage/HowItWorks";
 import TranslationCycle from "@/components/homepage/TranslationCycle";
 import RoundTables from "@/components/homepage/RoundTables";
 import Outputs from "@/components/homepage/Outputs";
 import Routes from "@/components/homepage/Routes";
-import CTA from "@/components/homepage/CTA";
+
 import Testimonials from "@/components/homepage/Testimonials";
 import Stats from "@/components/homepage/Stats";
+import CTA from "@/components/CTA";
+import HeroHomePage from "@/components/homepage/HeroHomePage";
 
 export const metadata: Metadata = {
     title: "The AMR Interface | AMR Research into Parliamentary Action",
@@ -91,16 +93,16 @@ export default function HomePage() {
             />
             {/*<a className="skip" href="#main">Skip to main content</a>*/}
             <main id="main">
-                <Hero/>
+                <HeroHomePage/>
                 <Stats/>
                 <Thesis/>
-                <HowItWorks/>
+                <HowItWorks name={"HowItWorks"}/>
                 <TranslationCycle/>
                 <RoundTables/>
-                <Outputs/>
-                <Testimonials/>
+                <Outputs name={"Outputs"}/>
+                <Testimonials name={"Testimonial"}/>
                 <Routes/>
-                <CTA/>
+                <CTA name={"CTAHome"} />
             </main>
         </>
     );

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import HeroLeadership from "@/components/leadershippage/HeroLeadership";
 import Leadership from "@/components/leadershippage/Leadership";
 import Governance from "@/components/leadershippage/Governance";
 import Portability from "@/components/leadershippage/Portability";
 import FundingAndDeclarations from "@/components/leadershippage/FundingAndDeclarations";
-import CTALeadership from "@/components/leadershippage/CTALeadership";
+import CTA from "@/components/CTA";
+import Hero from "@/components/Hero";
 
 export const metadata: Metadata = {
   title: "Leadership & Governance",
@@ -108,12 +108,12 @@ export default function LeadershipPage() {
       />
       {/*<a className="skip" href="#main">Skip to main content</a>*/}
       <main id="main">
-        <HeroLeadership/>
+        <Hero name={"HeroLeadership"}/>
         <Leadership/>
         <Governance/>
         <Portability />
         <FundingAndDeclarations/>
-        <CTALeadership/>
+        <CTA name={"CTALeadership"}/>
       </main>
     </>
   );
