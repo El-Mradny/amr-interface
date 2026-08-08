@@ -7,7 +7,6 @@ interface HowItworkProps {
 
 
 export default async function HowItWorks({data,}: HowItworkProps) {
-    console.log("How It works",data)
     return (
         <section className="how" aria-labelledby="how-title">
             <div className="wrap">

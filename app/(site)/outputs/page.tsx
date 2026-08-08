@@ -5,9 +5,10 @@ import HowToPublish from "@/components/outputspage/HowToPublish";
 import CTA from "@/components/CTA";
 import Hero from "@/components/Hero";
 import {ComponentService} from "@/services/component.service";
-import {parseJson} from "@/lib/json";
 import {CTASection} from "@/types/components/cta";
 import {HeroSectionData} from "@/types/components/hero";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
     title: "Policy Briefs, Papers & Reports",
@@ -144,28 +145,19 @@ const pageSchema = {
 
 
 export default async function OutputsPage() {
-    const components = await ComponentService.getAll();
-    const outputComponents = components.filter((c) =>
-        c.name.includes("Outputs")
-    );
-    if (!components) return ;
-
-    const lookup = Object.fromEntries(
-        outputComponents.map((c) => [c.name, c])
-    );
+    const components = await ComponentService.getLookup();
     return (
         <>
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{__html: JSON.stringify(pageSchema)}}
             />
-            {/*<a className="skip" href="#main">Skip to main content</a>*/}
             <main id="main">
-                <Hero data={parseJson<HeroSectionData>(lookup["HeroOutputs"].data)}/>
+                <Hero data={components.OUTPUTS_HERO as unknown as HeroSectionData}/>
                 <Archive/>
                 <HowToCite/>
                 <HowToPublish/>
-                <CTA data={parseJson<CTASection>(lookup["CTAOutputs"].data)}/>
+                <CTA data={components.OUTPUTS_CTA as unknown as CTASection}/>
             </main>
         </>
     );

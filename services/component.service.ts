@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import {InputJsonValue} from "@prisma/client/runtime/client";
 
 export class ComponentService {
@@ -40,5 +40,29 @@ export class ComponentService {
                 id: "asc",
             },
         });
+    }
+    static getByPage(page: string) {
+        return prisma.component.findMany({
+            where: {
+                name: {
+                    startsWith: page,
+                },
+            },
+            orderBy: {
+                id: "asc",
+            },
+        });
+    }
+
+
+    static async getLookup() {
+        const components = await this.getAll();
+
+        return Object.fromEntries(
+            components.map((component) => [
+                component.name,
+                component.data,
+            ])
+        );
     }
 }

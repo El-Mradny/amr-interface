@@ -1,19 +1,16 @@
-import {prisma} from "@/lib/prisma";
+// app/(admin)/admin/components/[name]/page.tsx
 import Link from "next/link";
 import JsonEditor from "@/components/admin/JsonEditor";
 import UploadImage from "@/components/admin/UploadImage";
+import {ComponentService} from "@/services/component.service";
 
 
 
-export default async function Page({params,}: { params: Promise<{ name: string }>; }) {
+export default async function Page({ params,}: { params: Promise<{ name: string }>; }) {
     const {name} = await params;
 
 
-    const component = await prisma.component.findUnique({
-        where: {
-            name: name,
-        },
-    });
+    const component = await ComponentService.getByName(name);
 
     if (!component) return <div>Not Found</div>;
 

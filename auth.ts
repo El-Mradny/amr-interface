@@ -3,11 +3,11 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 
 import authConfig from "./auth.config";
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 console.log("🔥 AUTH.TS LOADED");
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+export const {handlers, auth, signIn, signOut} = NextAuth({
     ...authConfig,
 
     providers: [

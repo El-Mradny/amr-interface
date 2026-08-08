@@ -13,8 +13,9 @@ import CTA from "@/components/CTA";
 import HeroHomePage from "@/components/homepage/HeroHomePage";
 import {ComponentService} from "@/services/component.service";
 import {CTASection} from "@/types/components/cta";
-import {parseJson} from "@/lib/json";
 import {HowItWorksSection, OutputsSection, TestimonialSection} from "@/types/components/homeComponents";
+import {HeroSectionData} from "@/types/components/hero";
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
     title: "The AMR Interface | AMR Research into Parliamentary Action",
@@ -89,16 +90,7 @@ const pageSchema = {
 
 
 export default async function HomePage() {
-    const components = await ComponentService.getAll();
-    const homeComponents = components.filter((c) =>
-        c.name.includes("Home")
-    );
-    if (!components) return ;
-
-    const lookup = Object.fromEntries(
-        homeComponents.map((c) => [c.name, c])
-    );
-
+    const components = await ComponentService.getLookup();
     return (
         <>
             <script
@@ -107,16 +99,16 @@ export default async function HomePage() {
             />
             {/*<a className="skip" href="#main">Skip to main content</a>*/}
             <main id="main">
-                <HeroHomePage/>
+                <HeroHomePage data={components.HOME_HERO as unknown as HeroSectionData}/>
                 <Stats/>
                 <Thesis/>
-                <HowItWorks data={parseJson<HowItWorksSection>(lookup["HowItWorksHome"].data)}/>
+                <HowItWorks data={components.HOME_HOWITWORKS as unknown as HowItWorksSection}/>
                 <TranslationCycle/>
                 <RoundTables/>
-                <Outputs data={parseJson<OutputsSection>(lookup["OutputsHome"].data)}/>
-                <Testimonials data={parseJson<TestimonialSection>(lookup["TestimonialHome"].data)}/>
+                <Outputs data={components.HOME_OUTPUT as unknown as OutputsSection}/>
+                <Testimonials data={components.HOME_TESTIMONIAL as unknown as TestimonialSection}/>
                 <Routes/>
-                <CTA data={parseJson<CTASection>(lookup["CTAHome"].data)} />
+                <CTA data={components.HOME_CTA as unknown as CTASection} />
             </main>
         </>
     );

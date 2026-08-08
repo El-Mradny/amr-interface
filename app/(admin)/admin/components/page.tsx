@@ -1,64 +1,71 @@
 import Link from "next/link";
-import { ComponentService } from "@/services/component.service";
+import {ComponentService} from "@/services/component.service";
 
 const sections = [
     {
         title: "Home Page",
-        key: "Home",
+        key: "HOME",
     },
     {
         title: "RoundTables Page",
-        key: "RoundTables",
+        key: "ROUNDTABLES",
     },
     {
         title: "Outputs Page",
-        key: "Outputs",
+        key: "OUTPUTS",
     },
     {
         title: "Leadership Page",
-        key: "Leadership",
+        key: "LEADERSHIP",
     },
     {
         title: "Engage Page",
-        key: "Engage",
+        key: "ENGAGE",
     },
 ];
 
 export default async function Page() {
-    const components = await ComponentService.getAll();
+    const components = await ComponentService.getLookup();
+
+    const componentNames = Object.keys(components);
 
     return (
         <div className="max-w-6xl mx-auto px-6 py-8">
-            {sections.map((section) => {
-                const pageComponents = components.filter((component) =>
-                    component.name.includes(section.key)
-                );
+            <div className="space-y-10">
+                {sections.map((section) => {
+                    const pageComponents = componentNames.filter((name) =>
+                        name.startsWith(section.key)
+                    );
 
-                return (
-                    <section
-                        key={section.key}
-                        className="mb-10"
-                    >
-                        <h1 className="p-5 text-2xl font-semibold">
-                            {section.title}
-                        </h1>
+                    return (
+                        <section key={section.key}>
+                            <h1 className="mb-4 text-2xl font-semibold">
+                                {section.title}
+                            </h1>
 
-                        <div className="flex flex-wrap gap-3">
-                            {pageComponents.map((component) => (
-                                <Link
-                                    key={component.id}
-                                    href={`/admin/components/${encodeURIComponent(
-    component.name
-)}`}
-                                    className="btn btn-line"
-                                >
-                                    {component.name}
-                                </Link>
-                            ))}
-                        </div>
-                    </section>
-                );
-            })}
+                            {pageComponents.length === 0 ? (
+                                <p className="text-gray-500">
+                                    No components found.
+                                </p>
+                            ) : (
+                                <div className="flex flex-wrap gap-3">
+                                    {pageComponents.map((name) => (
+                                        <Link
+                                            key={name}
+                                            href={`/admin/components/${encodeURIComponent(
+                                                name
+                                            )}`}
+                                            className="btn btn-line"
+                                        >
+                                            {name}
+                                        </Link>
+                                    ))}
+                                </div>
+                            )}
+                        </section>
+                    );
+                })}
+            </div>
         </div>
     );
 }

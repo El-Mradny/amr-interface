@@ -8,8 +8,6 @@ interface CTAProps {
 }
 
 const CTA = async ({data}: CTAProps) => {
-
-    console.log("CTA ",data);
     return (
         <section className="cta" aria-labelledby="cta-title">
             <div className="wrap">

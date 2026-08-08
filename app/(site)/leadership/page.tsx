@@ -6,9 +6,9 @@ import FundingAndDeclarations from "@/components/leadershippage/FundingAndDeclar
 import CTA from "@/components/CTA";
 import Hero from "@/components/Hero";
 import {ComponentService} from "@/services/component.service";
-import {parseJson} from "@/lib/json";
 import {HeroSectionData} from "@/types/components/hero";
 import {CTASection} from "@/types/components/cta";
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Leadership & Governance",
@@ -104,16 +104,7 @@ const pageSchema = {
 };
 
 export default async function LeadershipPage() {
-  const components = await ComponentService.getAll();
-  const leaderComponents = components.filter((c) =>
-      c.name.includes("Leadership")
-  );
-
-  if (!components) return ;
-
-  const lookup = Object.fromEntries(
-      leaderComponents.map((c) => [c.name, c])
-  );
+  const components = await ComponentService.getLookup();
   return (
       <>
         <script
@@ -122,12 +113,12 @@ export default async function LeadershipPage() {
         />
         {/*<a className="skip" href="#main">Skip to main content</a>*/}
         <main id="main">
-          <Hero data={parseJson<HeroSectionData>(lookup["HeroLeadership"].data)}/>
+          <Hero data={components.LEADERSHIP_HERO as unknown as HeroSectionData}/>
           <Leadership/>
           <Governance/>
           <Portability />
           <FundingAndDeclarations/>
-          <CTA data={parseJson<CTASection>(lookup["CTALeadership"].data)}/>
+          <CTA data={components.LEADERSHIP_CTA as unknown as CTASection}/>
         </main>
       </>
   );

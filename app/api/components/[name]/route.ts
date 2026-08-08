@@ -1,23 +1,24 @@
-import { NextRequest, NextResponse } from "next/server";
-import { ComponentService } from "@/services/component.service";
+import {NextRequest, NextResponse} from "next/server";
+import {ComponentService} from "@/services/component.service";
 import {auth} from "@/auth";
+import {revalidateTag} from "next/cache";
 
 
 export async function GET(
     req: NextRequest,
-    { params }: { params: Promise<{ name: string }> }
+    {params}: { params: Promise<{ name: string }> }
 ) {
     const session = await auth();
 
     if (!session) {
         return NextResponse.json(
-            { error: "Unauthorized" },
-            { status: 401 }
+            {error: "Unauthorized"},
+            {status: 401}
         );
     }
 
 
-    const { name } = await params;
+    const {name} = await params;
 
     const component = await ComponentService.getByName(decodeURIComponent(name));
 
@@ -26,24 +27,24 @@ export async function GET(
 
 export async function PUT(
     req: NextRequest,
-    { params }: { params: Promise<{ name: string }> }
+    {params}: { params: Promise<{ name: string }> }
 ) {
     const session = await auth();
 
     if (!session) {
         return NextResponse.json(
-            { error: "Unauthorized" },
-            { status: 401 }
+            {error: "Unauthorized"},
+            {status: 401}
         );
     }
     const body = await req.json();
-    const { name } = await params;
+    const {name} = await params;
 
 
     const updated = await ComponentService.updateByName(
         decodeURIComponent(name),
         body.data
     );
-
+    revalidateTag("site-components", "max");
     return NextResponse.json(updated);
 }
