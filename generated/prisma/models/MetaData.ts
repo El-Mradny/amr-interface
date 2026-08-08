@@ -220,7 +220,6 @@ export type MetaDataOrderByWithRelationInput = {
   data?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  _relevance?: Prisma.MetaDataOrderByRelevanceInput
 }
 
 export type MetaDataWhereUniqueInput = Prisma.AtLeast<{
@@ -311,12 +310,6 @@ export type MetaDataUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type MetaDataOrderByRelevanceInput = {
-  fields: Prisma.MetaDataOrderByRelevanceFieldEnum | Prisma.MetaDataOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
-}
-
 export type MetaDataCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   pageName?: Prisma.SortOrder
@@ -357,7 +350,21 @@ export type MetaDataSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   updatedAt?: boolean
 }, ExtArgs["result"]["metaData"]>
 
+export type MetaDataSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  pageName?: boolean
+  data?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+}, ExtArgs["result"]["metaData"]>
 
+export type MetaDataSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  pageName?: boolean
+  data?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+}, ExtArgs["result"]["metaData"]>
 
 export type MetaDataSelectScalar = {
   id?: boolean
@@ -496,6 +503,30 @@ export interface MetaDataDelegate<ExtArgs extends runtime.Types.Extensions.Inter
   createMany<T extends MetaDataCreateManyArgs>(args?: Prisma.SelectSubset<T, MetaDataCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many MetaData and returns the data saved in the database.
+   * @param {MetaDataCreateManyAndReturnArgs} args - Arguments to create many MetaData.
+   * @example
+   * // Create many MetaData
+   * const metaData = await prisma.metaData.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many MetaData and only return the `id`
+   * const metaDataWithIdOnly = await prisma.metaData.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends MetaDataCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, MetaDataCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MetaDataPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a MetaData.
    * @param {MetaDataDeleteArgs} args - Arguments to delete one MetaData.
    * @example
@@ -558,6 +589,36 @@ export interface MetaDataDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    * 
    */
   updateMany<T extends MetaDataUpdateManyArgs>(args: Prisma.SelectSubset<T, MetaDataUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more MetaData and returns the data updated in the database.
+   * @param {MetaDataUpdateManyAndReturnArgs} args - Arguments to update many MetaData.
+   * @example
+   * // Update many MetaData
+   * const metaData = await prisma.metaData.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more MetaData and only return the `id`
+   * const metaDataWithIdOnly = await prisma.metaData.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends MetaDataUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, MetaDataUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MetaDataPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one MetaData.
@@ -966,6 +1027,25 @@ export type MetaDataCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
+ * MetaData createManyAndReturn
+ */
+export type MetaDataCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MetaData
+   */
+  select?: Prisma.MetaDataSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the MetaData
+   */
+  omit?: Prisma.MetaDataOmit<ExtArgs> | null
+  /**
+   * The data used to create many MetaData.
+   */
+  data: Prisma.MetaDataCreateManyInput | Prisma.MetaDataCreateManyInput[]
+  skipDuplicates?: boolean
+}
+
+/**
  * MetaData update
  */
 export type MetaDataUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -991,6 +1071,32 @@ export type MetaDataUpdateArgs<ExtArgs extends runtime.Types.Extensions.Internal
  * MetaData updateMany
  */
 export type MetaDataUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * The data used to update MetaData.
+   */
+  data: Prisma.XOR<Prisma.MetaDataUpdateManyMutationInput, Prisma.MetaDataUncheckedUpdateManyInput>
+  /**
+   * Filter which MetaData to update
+   */
+  where?: Prisma.MetaDataWhereInput
+  /**
+   * Limit how many MetaData to update.
+   */
+  limit?: number
+}
+
+/**
+ * MetaData updateManyAndReturn
+ */
+export type MetaDataUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MetaData
+   */
+  select?: Prisma.MetaDataSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the MetaData
+   */
+  omit?: Prisma.MetaDataOmit<ExtArgs> | null
   /**
    * The data used to update MetaData.
    */

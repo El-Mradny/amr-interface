@@ -135,13 +135,12 @@ export const JsonNullValueInput = {
 export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
-export const UserOrderByRelevanceFieldEnum = {
-  name: 'name',
-  email: 'email',
-  password: 'password'
+export const QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
 } as const
 
-export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
+export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
 export const NullsOrder = {
@@ -152,14 +151,6 @@ export const NullsOrder = {
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
-export const PostOrderByRelevanceFieldEnum = {
-  title: 'title',
-  content: 'content'
-} as const
-
-export type PostOrderByRelevanceFieldEnum = (typeof PostOrderByRelevanceFieldEnum)[keyof typeof PostOrderByRelevanceFieldEnum]
-
-
 export const JsonNullValueFilter = {
   DbNull: DbNull,
   JsonNull: JsonNull,
@@ -167,26 +158,4 @@ export const JsonNullValueFilter = {
 } as const
 
 export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
-
-
-export const QueryMode = {
-  default: 'default',
-  insensitive: 'insensitive'
-} as const
-
-export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
-
-
-export const ComponentOrderByRelevanceFieldEnum = {
-  name: 'name'
-} as const
-
-export type ComponentOrderByRelevanceFieldEnum = (typeof ComponentOrderByRelevanceFieldEnum)[keyof typeof ComponentOrderByRelevanceFieldEnum]
-
-
-export const MetaDataOrderByRelevanceFieldEnum = {
-  pageName: 'pageName'
-} as const
-
-export type MetaDataOrderByRelevanceFieldEnum = (typeof MetaDataOrderByRelevanceFieldEnum)[keyof typeof MetaDataOrderByRelevanceFieldEnum]
 

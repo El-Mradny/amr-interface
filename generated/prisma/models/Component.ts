@@ -220,7 +220,6 @@ export type ComponentOrderByWithRelationInput = {
   data?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  _relevance?: Prisma.ComponentOrderByRelevanceInput
 }
 
 export type ComponentWhereUniqueInput = Prisma.AtLeast<{
@@ -311,12 +310,6 @@ export type ComponentUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type ComponentOrderByRelevanceInput = {
-  fields: Prisma.ComponentOrderByRelevanceFieldEnum | Prisma.ComponentOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
-}
-
 export type ComponentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -357,7 +350,21 @@ export type ComponentSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   updatedAt?: boolean
 }, ExtArgs["result"]["component"]>
 
+export type ComponentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  name?: boolean
+  data?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+}, ExtArgs["result"]["component"]>
 
+export type ComponentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  name?: boolean
+  data?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+}, ExtArgs["result"]["component"]>
 
 export type ComponentSelectScalar = {
   id?: boolean
@@ -496,6 +503,30 @@ export interface ComponentDelegate<ExtArgs extends runtime.Types.Extensions.Inte
   createMany<T extends ComponentCreateManyArgs>(args?: Prisma.SelectSubset<T, ComponentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Components and returns the data saved in the database.
+   * @param {ComponentCreateManyAndReturnArgs} args - Arguments to create many Components.
+   * @example
+   * // Create many Components
+   * const component = await prisma.component.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Components and only return the `id`
+   * const componentWithIdOnly = await prisma.component.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends ComponentCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, ComponentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ComponentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Component.
    * @param {ComponentDeleteArgs} args - Arguments to delete one Component.
    * @example
@@ -558,6 +589,36 @@ export interface ComponentDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    * 
    */
   updateMany<T extends ComponentUpdateManyArgs>(args: Prisma.SelectSubset<T, ComponentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Components and returns the data updated in the database.
+   * @param {ComponentUpdateManyAndReturnArgs} args - Arguments to update many Components.
+   * @example
+   * // Update many Components
+   * const component = await prisma.component.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Components and only return the `id`
+   * const componentWithIdOnly = await prisma.component.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends ComponentUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, ComponentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ComponentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Component.
@@ -966,6 +1027,25 @@ export type ComponentCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
+ * Component createManyAndReturn
+ */
+export type ComponentCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Component
+   */
+  select?: Prisma.ComponentSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Component
+   */
+  omit?: Prisma.ComponentOmit<ExtArgs> | null
+  /**
+   * The data used to create many Components.
+   */
+  data: Prisma.ComponentCreateManyInput | Prisma.ComponentCreateManyInput[]
+  skipDuplicates?: boolean
+}
+
+/**
  * Component update
  */
 export type ComponentUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -991,6 +1071,32 @@ export type ComponentUpdateArgs<ExtArgs extends runtime.Types.Extensions.Interna
  * Component updateMany
  */
 export type ComponentUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * The data used to update Components.
+   */
+  data: Prisma.XOR<Prisma.ComponentUpdateManyMutationInput, Prisma.ComponentUncheckedUpdateManyInput>
+  /**
+   * Filter which Components to update
+   */
+  where?: Prisma.ComponentWhereInput
+  /**
+   * Limit how many Components to update.
+   */
+  limit?: number
+}
+
+/**
+ * Component updateManyAndReturn
+ */
+export type ComponentUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Component
+   */
+  select?: Prisma.ComponentSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Component
+   */
+  omit?: Prisma.ComponentOmit<ExtArgs> | null
   /**
    * The data used to update Components.
    */
