@@ -13,7 +13,13 @@ import CTA from "@/components/CTA";
 import HeroHomePage from "@/components/homepage/HeroHomePage";
 import {ComponentService} from "@/services/component.service";
 import {CTASection} from "@/types/components/cta";
-import {HowItWorksSection, OutputsSection, TestimonialSection} from "@/types/components/homeComponents";
+import {
+    HowItWorksSection,
+    OutputsSection, RoundTablesSecton, RoutesSection,
+    StatsSection,
+    TestimonialSection,
+    ThesisSection, TranslationCycleSection
+} from "@/types/components/homeComponents";
 import {HeroSectionData} from "@/types/components/hero";
 export const dynamic = "force-dynamic";
 
@@ -100,14 +106,14 @@ export default async function HomePage() {
             {/*<a className="skip" href="#main">Skip to main content</a>*/}
             <main id="main">
                 <HeroHomePage data={components.HOME_HERO as unknown as HeroSectionData}/>
-                <Stats/>
-                <Thesis/>
+                <Stats data={components.HOME_STATS as unknown as StatsSection}/>
+                <Thesis data={components.HOME_THESIS as unknown as ThesisSection}/>
                 <HowItWorks data={components.HOME_HOWITWORKS as unknown as HowItWorksSection}/>
-                <TranslationCycle/>
-                <RoundTables/>
+                <TranslationCycle data={components.HOME_TRANSLATION_CYCLE as unknown as TranslationCycleSection }/>
+                <RoundTables data={components.HOME_ROUNDTABLES as unknown as RoundTablesSecton}/>
                 <Outputs data={components.HOME_OUTPUT as unknown as OutputsSection}/>
                 <Testimonials data={components.HOME_TESTIMONIAL as unknown as TestimonialSection}/>
-                <Routes/>
+                <Routes data={components.HOME_ROUTES as unknown as RoutesSection}/>
                 <CTA data={components.HOME_CTA as unknown as CTASection} />
             </main>
         </>

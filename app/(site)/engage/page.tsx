@@ -8,6 +8,7 @@ import Hero from "@/components/Hero";
 import {HeroSectionData} from "@/types/components/hero";
 import {CTASection} from "@/types/components/cta";
 import {ComponentService} from "@/services/component.service";
+import {FourRoutesSection, RigesterSection, WhatToExpectSection} from "@/types/components/engageComponents";
 
 export const dynamic = "force-dynamic";
 
@@ -128,9 +129,9 @@ export default async function EngagePage() {
             />
             <main id="main">
                 <Hero data={components.ENGAGE_HERO as unknown as HeroSectionData}/>
-                <FourRoutes/>
-                <Register/>
-                <WhatToExpect/>
+                <FourRoutes data={components.ENGAGE_FOUR_ROUTES as unknown as FourRoutesSection}/>
+                <Register data={components.ENGAGE_REGISTER as unknown as RigesterSection}/>
+                <WhatToExpect data={components.ENGAGE_WHAT_TO_EXPECT as unknown as WhatToExpectSection}/>
                 <CTA data={components.ENGAGE_CTA as unknown as CTASection}/>
             </main>
         </>

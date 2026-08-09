@@ -7,6 +7,7 @@ import Hero from "@/components/Hero";
 import {ComponentService} from "@/services/component.service";
 import {CTASection} from "@/types/components/cta";
 import {HeroSectionData} from "@/types/components/hero";
+import {ArchiveSection, HowToCiteSection, HowToPublishSection} from "@/types/components/outputsComponents";
 
 export const dynamic = "force-dynamic";
 
@@ -154,9 +155,9 @@ export default async function OutputsPage() {
             />
             <main id="main">
                 <Hero data={components.OUTPUTS_HERO as unknown as HeroSectionData}/>
-                <Archive/>
-                <HowToCite/>
-                <HowToPublish/>
+                <Archive data={components.OUTPUTS_ARCHIVE as unknown as ArchiveSection} />
+                <HowToCite data={components.OUTPUTS_HOW_TO_CITE as unknown as HowToCiteSection}/>
+                <HowToPublish data={components.OUTPUTS_HOW_TO_PUBLISH as unknown as HowToPublishSection}/>
                 <CTA data={components.OUTPUTS_CTA as unknown as CTASection}/>
             </main>
         </>

@@ -8,6 +8,12 @@ import Hero from "@/components/Hero";
 import {HeroSectionData} from "@/types/components/hero";
 import {CTASection} from "@/types/components/cta";
 import {ComponentService} from "@/services/component.service";
+import {
+    CalendarSection,
+    CycleProduceSection,
+    MonthDetailSection,
+    RunOfSessionSection
+} from "@/types/components/roundtablesComponets";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
@@ -113,13 +119,13 @@ export default async function RoundtablesPage() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{__html: JSON.stringify(pageSchema)}}
             />
-            {/*<a className="skip" href="#main">Skip to main content</a>*/}
+
             <main id="main">
                 <Hero data={components.ROUNDTABLES_HERO as unknown as HeroSectionData}/>
-                <RunOfSession/>
-                <Calendar/>
-                <MonthDetail/>
-                <CycleProduce/>
+                <RunOfSession data={components.ROUNDTABLES_RUN_OF_SESSION as unknown as RunOfSessionSection}/>
+                <Calendar data={components.ROUNDTABLES_CALENDAR as unknown as CalendarSection}/>
+                <MonthDetail data={components.ROUNDTABLES_MONTH_DETAIL as unknown as MonthDetailSection}/>
+                <CycleProduce data={components.ROUNDTABLES_CYCLE_PRODUCE as unknown as CycleProduceSection}/>
                 <CTA data={components.ROUNDTABLES_CTA as unknown as CTASection}/>
             </main>
         </>
