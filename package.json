@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "cp -r public .next/standalone/ && cp -r .next/static .next/standalone/.next/",
     "start": "next start",
     "lint": "eslint",
     "seed": "node prisma/seed.js"
@@ -21,7 +22,8 @@
     "pg": "^8.22.0",
     "postcss": "^8.5.26",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
